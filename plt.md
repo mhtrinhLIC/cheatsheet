@@ -39,3 +39,11 @@ from matplotlib.dates import DateFormatter
 
 plt.gca().xaxis.set_major_formatter(DateFormatter("%b-%d"))
 ```
+
+### Get color array
+```python
+cmap = plt.get_cmap("tab10")
+col0 = cmap(0)
+```
+See also: https://stackoverflow.com/questions/42086276/get-default-line-colour-cycle
+
