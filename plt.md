@@ -47,3 +47,32 @@ col0 = cmap(0)
 ```
 See also: https://stackoverflow.com/questions/42086276/get-default-line-colour-cycle
 
+
+### Multi plot
+```python
+fig=plt.figure(figsize=(20,18))  # Optional: define figure size
+ax1 = plt.subplot(211)  # in a 2 rows, 1 cols setup, figure 1, : we call it ax1
+ax2 = plt.subplot(212)  # in a 2 rows, 1 cols setup, figure 2, : we call it ax2
+
+plt.sca(ax1)  # We now plot on to ax1 
+plt.plot(....)
+plt.legend( ...)
+
+plt.sca(ax2)  # We now plot on to ax2
+plt.scatter(...)
+
+plt.show()
+```
+
+### Shaded density plot
+Require sns
+```python
+import seaborn as sns
+
+sns.distplot(l.spike, hist = False, kde = True,
+                 kde_kws = {'shade': True, 'linewidth': 3}, 
+                  label = "chudleigh")
+sns.distplot(c.spike, hist = False, kde = True,
+                 kde_kws = {'shade': True, 'linewidth': 3}, 
+                  label = "crv")
+```
