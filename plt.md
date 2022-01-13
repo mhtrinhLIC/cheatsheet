@@ -1,5 +1,5 @@
 
-### Default figure siz and font
+### Default figure size and font
 ``` python
 import matplotlib.pyplot as plt
 
@@ -46,6 +46,29 @@ cmap = plt.get_cmap("tab10")
 col0 = cmap(0)
 ```
 See also: https://stackoverflow.com/questions/42086276/get-default-line-colour-cycle
+
+
+### Get last line color
+```python
+lastCol = plt.gca().lines[-1].get_color()
+```
+
+### Legend at the end of line plot
+```python
+
+# Do all your plot with label in
+# Store all your labels in array: labelList
+
+ax=plt.gca()
+for line, name in zip(ax.lines, labelList):
+    y = line.get_ydata()[-1]
+    x = line.get_xdata()[-1]
+    text = ax.annotate(name,
+                       xy=(x, y),
+                       xytext=(0, 0),
+                       color=line.get_color(),
+                       textcoords="offset points")
+```
 
 
 ### Multi plot
