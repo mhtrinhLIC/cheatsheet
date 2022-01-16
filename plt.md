@@ -96,7 +96,7 @@ sns.kdeplot(l.spike,label = "chudleigh",
             fill=True,linewidth=3,
             clip=(0,4))
             
-sns.displot(l.spike,label = "chudleigh",
+sns.kdeplot(l.spike,label = "chudleigh",
             fill=True,linewidth=3,
             clip=(0,4))
             
