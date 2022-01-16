@@ -89,13 +89,24 @@ plt.show()
 
 ### Shaded density plot
 Require sns
+
 ```python
 import seaborn as sns
+sns.kdeplot(l.spike,label = "chudleigh",
+            fill=True,linewidth=3,
+            clip=(0,4))
+            
+sns.displot(l.spike,label = "chudleigh",
+            fill=True,linewidth=3,
+            clip=(0,4))
+            
+# DECAPRECATED
+#sns.distplot(l.spike, hist = False, kde = True,
+#                 kde_kws = {'shade': True, 'linewidth': 3}, 
+#                  label = "chudleigh")
+#sns.distplot(c.spike, hist = False, kde = True,
+#                 kde_kws = {'shade': True, 'linewidth': 3}, 
+#                  label = "crv")
 
-sns.distplot(l.spike, hist = False, kde = True,
-                 kde_kws = {'shade': True, 'linewidth': 3}, 
-                  label = "chudleigh")
-sns.distplot(c.spike, hist = False, kde = True,
-                 kde_kws = {'shade': True, 'linewidth': 3}, 
-                  label = "crv")
 ```
+`displot`, the replacement of `distplot`, is actually just a wrapper around 3 functions. It's a one-line plot that suppose to do everything. You can not stack plot like with `plt`. You better just use directely the plot function behind it like `kdeplot`. 
