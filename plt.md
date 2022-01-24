@@ -27,6 +27,11 @@ plt.grid(which="minor",alpha=0.2)
 ```
 See https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/customize-dates-matplotlib-plots-python/
 
+### Manual ticking
+```python
+plt.gca().set_xticks(tickLocationArray)
+plt.gca().set_xticklabels(labelArray)
+```
 
 ### Rotate date xlabel
 ```python
