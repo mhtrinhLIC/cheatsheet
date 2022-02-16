@@ -1,4 +1,13 @@
 
+
+### Subset date when there are duplicate date
+```python
+df['date'] = df.index
+sub=df[df.date.between('2022-02-14 06:37','2022-02-15 06:37')]
+```
+You need to set a column because  `DateTimeIndex` do not have `between()` while `Timestamp` do.
+
+
 ### Default figure size and font
 ``` python
 import matplotlib.pyplot as plt
@@ -38,6 +47,11 @@ plt.gca().set_xticklabels(labelArray)
 plt.gcf().autofmt_xdate()
 ```
 
+For non-date one: 
+```python
+plt.xticks(rotation=30)```
+
+
 ### Change the date format on axis
 ```python
 from matplotlib.dates import DateFormatter
@@ -51,6 +65,8 @@ cmap = plt.get_cmap("tab10")
 col0 = cmap(0)
 ```
 See also: https://stackoverflow.com/questions/42086276/get-default-line-colour-cycle
+
+Or use those name:  `C0`,`C1`,`C2`,...
 
 
 ### Get last line color
@@ -90,6 +106,14 @@ plt.sca(ax2)  # We now plot on to ax2
 plt.scatter(...)
 
 plt.show()
+```
+
+### Merge row subplot 
+This give merge first row and have 2 columns plot in second row.
+```python
+ax1 = plt.subplot(211)
+ax2 = plt.subplot(223)
+ax3 = plt.subplot(224)
 ```
 
 ### Shaded density plot
