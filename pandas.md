@@ -1,3 +1,22 @@
+# Timezone
+```python
+import pytz
+from datetime import datetime 
+s="2022-15-15T15:10:26.654544Z"
+dt=datetime.strptime(s,'%Y-%m-%dT%H:%M:%S.%fZ')
+
+# Tell that the date in the string is UTC:
+utcDt=dt.replace(tzinfo=pytz.utc)
+
+# Change the dt to local (or another) timezone
+localDt=utcDt.astimezone(pytz.timezone("Pacific/Auckland"))
+
+# Show the time in your timezone
+localDt.strftime("%d %b %Y, %H:%m")
+
+```
+
+
 # Add a column
 The `.values` is important otherwise you may end up with a bunch of `NaN`
 ```python
