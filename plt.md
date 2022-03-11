@@ -1,4 +1,17 @@
 
+### Chage figure size
+One of:
+```python
+plt.plot(blalba)
+plt.gcf().set_size_inches(15, 15)
+```
+Set the default figure size:
+```python
+plt.rcParams["figure.figsize"] = (20,10)
+plt.rcParams.update({'font.size': 14})
+plt.rcParams['figure.facecolor'] = 'white'
+```
+
 
 ### Subset date when there are duplicate date
 ```python
@@ -42,14 +55,16 @@ plt.gca().set_xticks(tickLocationArray)
 plt.gca().set_xticklabels(labelArray)
 ```
 
-### Rotate date xlabel
+### Rotate xlabel
+For dates:
 ```python
 plt.gcf().autofmt_xdate()
 ```
 
 For non-date one: 
 ```python
-plt.xticks(rotation=30)```
+plt.xticks(rotation=30)
+```
 
 
 ### Change the date format on axis
