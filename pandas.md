@@ -45,3 +45,16 @@ w.iat[i,iweight] = currentWeight
 df[startDtStr:endDtStr] = w
 
 ```
+
+# Subsetting non-uniq date
+Your date must not be an index. If it's the case, create a new column.
+```
+df['date'] = df.index # If your date in an index
+df[df.date.between(start,end)]
+```
+
+# Make long/big integer display as normal and not scientific notation
+```
+df['mycolumn'] = df['mycolumn'].astype("Int64")
+```
+Alternatively, you can even force it as string to be sure. See https://stackoverflow.com/a/61154379
