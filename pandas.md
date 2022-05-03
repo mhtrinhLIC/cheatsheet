@@ -13,7 +13,7 @@ def p(df):
 
 Or:
 ```python
-pd.get_option('display.max_colwidth')
+pd.set_option('display.max_colwidth')
 display(df)
 pd.reset_option('display.max_colwidth')
 ```
