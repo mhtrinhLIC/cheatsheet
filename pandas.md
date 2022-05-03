@@ -1,3 +1,23 @@
+# Display all rows
+```python
+def p(df):
+    with pd.option_context(
+            'display.max_rows', None,      # All rows
+            'display.max_columns', None,   # All cols
+            'display.max_colwidth',20,     # Col width
+            'precision', 2,                # Number of floating digit to display
+            'display.float_format',  '{:,}'.format,  # 1,200,000
+        ):
+        display(df)
+```
+
+Or:
+```python
+pd.get_option('display.max_colwidth')
+display(df)
+pd.reset_option('display.max_colwidth')
+```
+
 # Timezone
 ```python
 import pytz
