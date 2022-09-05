@@ -1,4 +1,12 @@
 
+### Get color from value
+```python
+cmap = matplotlib.cm.get_cmap('viridis')
+norm = matplotlib.colors.Normalize(vmin=0, vmax=MY_MAX)
+rgba=cmap(norm(MYVALUE))
+```
+
+
 ### Chage figure size
 One of:
 ```python
