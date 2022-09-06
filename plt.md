@@ -1,4 +1,22 @@
 
+### Custom legend color bar
+```python
+def colorBar(mini=0, maxi=1,
+             nColor=100,
+             nLabel=4,
+             aspect=0.03,
+             colorMap="plasma"):
+    step=(maxi-mini)/nColor
+    m = np.zeros((1,nColor+1))
+    for i in range(nColor+1):
+        m[0,i] = mini + (i*step)
+
+    plt.imshow(m, cmap=colorMap, aspect=aspect*(maxi-mini),extent=(min(m[0])-0.5*step,max(m[0])+0.5*step,0,1))
+    plt.yticks(np.arange(0))
+    plt.xticks(np.arange(mini,maxi*1.1,(maxi-mini)/(nLabel+1)))
+    plt.show()
+```
+    
 ### Get color from value
 ```python
 cmap = matplotlib.cm.get_cmap('viridis')
