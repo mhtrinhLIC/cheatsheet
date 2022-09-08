@@ -146,6 +146,8 @@ plt.legend( ...)
 plt.sca(ax2)  # We now plot on to ax2
 plt.scatter(...)
 
+plt.subplots_adjust(wspace=0.5, hspace=0) # For tightening space between plot
+
 plt.show()
 ```
 
