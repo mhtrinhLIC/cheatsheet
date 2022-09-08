@@ -1,3 +1,18 @@
+# Fancy `apply`
+```python
+def addCols(row):
+
+    (col1,col2) = row # if input is a single column then you need: val = row[0] as row as-is, is a namedTuple
+
+    # Do stuffs ...
+    
+    return {'newCol1':bla, 'newCol2': bli, 'newCol3' : blo}
+
+newColDf=lw[['AnimalDurableCode','day']].apply(addCols,axis=1,result_type='expand')
+res=pd.concat([lw,newCol],axis=1)
+
+```
+
 # Display all rows
 ```python
 def p(df):
