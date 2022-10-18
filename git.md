@@ -19,3 +19,11 @@ git push origin --tags
 git push origin --delete <branch>
 ```
 
+# .gitignore
+
+## Ignore all and include only some
+```
+*
+!*/
+!SOURCES
+```
