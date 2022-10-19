@@ -1,4 +1,0 @@
-# How to setup and deploy CDK environment
-
-Here we will setup and deploy CDK environment in user folder, without impacting the OS wide system packages. 
-This do not require `sudo` (root permission) and have the advantage to not impact other users.
