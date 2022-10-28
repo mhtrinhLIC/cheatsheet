@@ -6,7 +6,7 @@ This allow you to tag recursively all resource in a stack
 app = cdk.App()
 myStack = AccessStack(app,"access-stack",env=env)
 
-# Do the taggin
+# Do the tagging
 cdk.Tags.of(app).add("deployedBy",awsUser)
 cdk.Tags.of(app).add("gitUrl",gitRepoName)
 
@@ -21,7 +21,7 @@ awsUser = boto3.client('sts',).get_caller_identity()['Arn'].split(':')[5]
 # Then tag
 cdk.Tags.of(app).add("deployedBy",awsUser)
 ```
-Note: if you are deploying using a different profile than default, do not use `cdk --profile myProfile` as this is not pass on to boto3. 
+Note: if you are deploying using a different profile than `default`, do not use `cdk --profile myProfile` as this is not passed on to boto3. 
 Use the environment variable `AWS_PROFILE` instead. `boto3` by default check for this variable if defined and use it to retrieve the right credentials. 
 
 Using profile, your deployment command will look like: 
@@ -59,4 +59,4 @@ def getDatetimeVersion(self):
     version=now.strftime("%Y%m%d.%H%M.%S")
     return version
 ```
-**Cons**: everytime your do an update of your stack, a new resource (and version number) is created, even if the resource did not change !
+**Cons**: everytime you do an update of your stack, a new resource (and version number) is created, even if the resource did not change !
