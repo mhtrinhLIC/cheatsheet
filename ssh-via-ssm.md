@@ -70,3 +70,32 @@ The list of user allowed to access to your private instance is defined by :
 * Your local device, from which you want to ssh to your instance, needs : 
   * ```aws cli``` installed.
   * ```Session Manager plugin``` : see https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+
+
+# Todo for the sysadmin to setup without bastion
+* Create a VPC with public and private subnet
+* Create a ssh key pair. The key is embedded via AMI creation or confiured at instance launch. Share that key to desired users (via dropbox, AWS Secret Manager, ...). There is alternative to this: see [here](https://cloudonaut.io/connect-to-your-ec2-instance-using-ssh-the-modern-way/)
+* Make sure your instance profile have at least the permission `AmazonSSMManagedInstanceCore`.
+* Create a user group `Access to instance` that contain the policy:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ssm:StartSession",
+            "Resource": [
+                "arn:aws:ec2:region:987654321098:instance/i-02573cafcfEXAMPLE",
+                "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
+            ]
+        }
+    ]
+}
+```
+* Add desired users to that group.
+* Make sure that all instance have SSM Agent installed, which is the default with AMIs based on Ubuntu.
+
+
+Resource:
+* Different way to connect to your instance: https://carriagereturn.nl/aws/ec2/ssh/connect/ssm/2019/07/26/connect.html
+* ssh via SSM but with your own ssh key rather than shared key: https://cloudonaut.io/connect-to-your-ec2-instance-using-ssh-the-modern-way/
