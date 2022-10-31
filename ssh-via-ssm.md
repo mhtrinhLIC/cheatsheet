@@ -2,28 +2,29 @@
 
 This about the pro and cons of using a bastion/jump host in order to access to an instance in a private subnet
 
-# Context
+## With Bastion/hump host
+![ssh-with-bastion](ssh-with-bastion.png)
 
-**With Bastion/hump host:**
+Resource requirement:
 * VPC with private and public subnet
 * A bastion/jump host instance is running in your public subnet
 * An instance that your want to connect to in private subnet
-* A S3 path dedicated to hold allowed ssh key. 
-* A script on your instance and bastion that periodically update the authorized ssh key list. 
+* A S3 folder dedicated to hold allowed ssh key. 
+* A script on your instance *and* bastion that periodically update the authorized ssh key list. 
 
-You ssh into the bastion/jump host that is public facing then ssh into your instance. 
+How it work: you ssh into the bastion/jump host that is public facing then ssh into your instance. 
 
 Your `~/.ssh/config` look like:
 ```
 Host awsBastion 
     Hostname ec2-13-211-5-42.ap-southeast-2.compute.amazonaws.com
     User ubuntu   
-    IdentityFile /key/to/bastion.pem
+    IdentityFile /your/key/to/bastion.pem
 
 Host *.ap-southeast-2.compute.internal
     User ubuntu
     ProxyCommand ssh -l ubuntu awsBastion -W %h:%p
-    IdentityFile /key/to/instance.pem
+    IdentityFile /your/key/to/instance.pem
 ```
 
 To connect, you run:
@@ -31,18 +32,20 @@ To connect, you run:
 ssh xxxx.ap-southeast-2.compute.internal
 ```
 
-**Without Bastion/Jump host:**
+## Without Bastion/Jump host
+![ssh-without-bastion](ssh-without-bastion.png)
+
+Resource requirement:
 * VPC with private and public subnet
 * An instance that your want to connect to in private subnet
 
-You ask AWS Sesion-Manager to estalish a ssh tunnel from your instance to your local machine. Then you ssh into your instance via the tunnel.
+How it work: you ask AWS Sesion-Manager to estalish a ssh tunnel from your instance to your local machine. Then you ssh into your instance via the tunnel.
 
 Your `~/.ssh/config` look like:
 ```
 Host i-* 
     User ubuntu
-    ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
-    IdentityFile /key/to/instance.pem
+    ProxyCommand sh -c "aws ec2-instance-connect send-ssh-public-key --instance-id %h --instance-os-user %r --ssh-public-key 'file://~/.ssh/id_rsa.pub' --output text && aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
 ```
 
 To connect, you run:
@@ -64,7 +67,7 @@ AWS_PROFILE=aws-cli-profile ssh i-014322b06bb5e5f76
 ## Different way to controll who is allowed to ssh into your private instance
 The list of user allowed to access to your private instance is defined by :
 * In the case **with bastion**: the list of people allowed to drop their ssh key into the S3 ssh key folder.
-* In the case **with ssm**: the list of IAM user with the permission``ssm:StartSession` and having access to the ssh key embedded to your instance.
+* In the case **with ssm**: the list of IAM user with the permission ```ssm:StartSession``` and ```ec2-instance-connect:SendSSHPublicKey```
 
 # Cons using SSM
 * Your local device, from which you want to ssh to your instance, needs : 
@@ -74,8 +77,10 @@ The list of user allowed to access to your private instance is defined by :
 
 # Todo for the sysadmin to setup without bastion
 * Create a VPC with public and private subnet
-* Create a ssh key pair. The key is embedded via AMI creation or confiured at instance launch. Share that key to desired users (via dropbox, AWS Secret Manager, ...). There is alternative to this: see [here](https://cloudonaut.io/connect-to-your-ec2-instance-using-ssh-the-modern-way/)
 * Make sure your instance profile have at least the permission `AmazonSSMManagedInstanceCore`.
+* Make sure that all instance have:
+    * SSM Agent installed, which is the default with AMIs based on Ubuntu and Amazon Linux
+    * `ec2-instance-connect` package installed, which is the default with AMIs based on Ubuntu and Amazon Linux
 * Create a user group `Access to instance` that contain the policy:
 ```
 {
@@ -85,15 +90,24 @@ The list of user allowed to access to your private instance is defined by :
             "Effect": "Allow",
             "Action": "ssm:StartSession",
             "Resource": [
-                "arn:aws:ec2:region:987654321098:instance/i-02573cafcfEXAMPLE",
+                "arn:aws:ec2:$REGION:$ACCOUNTID:instance/*",
                 "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
             ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2-instance-connect:SendSSHPublicKey"
+            ],
+            "Resource": [
+                "arn:aws:ec2:$REGION:$ACCOUNTID:instance/*"
+            ]      
         }
     ]
 }
 ```
 * Add desired users to that group.
-* Make sure that all instance have SSM Agent installed, which is the default with AMIs based on Ubuntu.
+
 
 
 Resource:
