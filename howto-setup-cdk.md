@@ -66,3 +66,11 @@ aws_secret_access_key = zzzzzz
 
 Having multiple profile allow you choose which one to use when deploying with cdk
 
+## Bootstrapping
+Before you can deploy in a region, you need to run bootstrap at least once:
+```bash
+cdk bootstrap 
+
+# Or specific region:
+cdk bootstrap accountNumber/us-west-2
+```
