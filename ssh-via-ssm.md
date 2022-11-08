@@ -73,7 +73,7 @@ The list of user allowed to access to your private instance is defined by :
 * Your local device, from which you want to ssh to your instance, needs : 
   * ```aws cli``` installed.
   * ```Session Manager plugin``` : see https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
-* Potential unstability when you change live the instance profile: by experience, when you change the instance profile, it may kill SSM agent and need to reboot the instance for the SSM Agent to come back.
+* Potential unstability: by experience, when you change live the instance profile, it may take sometime for the local SSM agent in the instance to reconnect to AWS. You may need to reboot the instance ...
 
 # Todo for the sysadmin to setup without bastion
 * Create a VPC with public and private subnet
