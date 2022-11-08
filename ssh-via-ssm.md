@@ -37,7 +37,7 @@ ssh xxxx.ap-southeast-2.compute.internal
 
 Resource requirement:
 * VPC with private and public subnet
-* An instance that your want to connect to in private subnet
+* An instance that you want to connect to, in a private subnet
 
 How it work: you ask AWS Sesion-Manager to estalish a ssh tunnel from your instance to your local machine. Then you ssh into your instance via the tunnel.
 
