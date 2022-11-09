@@ -108,8 +108,56 @@ The list of user allowed to access to your private instance is defined by :
 ```
 * Add desired users to that group.
 
+# How to setup for ssh
+**For Linux**
 
+If there is no file `.ssh/id_rsa.pub`, generate a new one with the command: `ssh-keygen` Use all default parameter by just pressing Enter.
 
-Resource:
+Edit and add to `~/.ssh/config`:
+```
+Host *
+    ControlPath /dev/shm/ssh-%r@%h-%p 
+    ServerAliveInterval 10
+    ControlMaster auto
+    
+Host i-* 
+    User ubuntu
+    ProxyCommand sh -c "aws ec2-instance-connect send-ssh-public-key --instance-id %h --instance-os-user %r --ssh-public-key 'file://~/.ssh/id_rsa.pub' --output text && aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    CheckHostIP no
+```
+
+**For Windows**
+
+If there is no file `C:\Users\<login>\.ssh\id_rsa.pub`: start a new git-bash terminal and run `ssh-keygen`. Use all default parameter by just pressing Enter.
+
+Edit and add to `C:\Users\<login>\.ssh\config`:
+```
+Host i-* 
+    IdentityFile ~/.ssh/id_rsa
+    ProxyCommand C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "aws ec2-instance-connect send-ssh-public-key --instance-id %h  --instance-os-user ubuntu  --ssh-public-key file://~/.ssh/id_rsa.pub --output text ;  aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p"
+
+```
+
+**For Mac**
+(I don't have Mac as a choice !)
+
+### Usage
+```
+ssh i-xxxxxxxxx
+```
+
+If you have multiple profiles configured and want to use a specific one:
+```
+AWS_PROFILE=anotherAccount  ssh i-xxxxxx
+```
+
+If the instance is not in the profile default region:
+```
+AWS_PROFILE=anotherAccount AWS_REGION=us-west-2  ssh i-xxxxxxx
+```
+
+# Resource:
 * Different way to connect to your instance: https://carriagereturn.nl/aws/ec2/ssh/connect/ssm/2019/07/26/connect.html
 * ssh via SSM but with your own ssh key rather than shared key: https://cloudonaut.io/connect-to-your-ec2-instance-using-ssh-the-modern-way/
