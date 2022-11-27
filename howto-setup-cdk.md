@@ -26,7 +26,7 @@ $ node -v
 ```
 See also: https://github.com/nvm-sh/nvm#intro
 
-## Install CDK cli in a custom folder
+## Install CDK cli in the user folder defined above
 Activate the right node version (this require `nvm` installed as above):
 ```
 nvm use v16
