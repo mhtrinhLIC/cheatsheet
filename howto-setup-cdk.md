@@ -6,9 +6,10 @@ This do not require `sudo` (root permission) and have the advantage to not impac
 ## Install nodejs in custom folder 
 This rely on `nvm` that will install and let you choose which version of nodejs you want to use.
 ```
-mkdir -p /data/ls/hitri0/nvm
+destDirAbsPath=/data/ls/hitri0/nvm
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | NVM_DIR="/data/ls/hitri0/nvm" bash
+mkdir -p ${destDirAbsPath}
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | NVM_DIR="${destDirAbsPath}" bash
 ```
 Open a new terminal. List and install the desired version:
 ```
@@ -53,7 +54,7 @@ cdk cli rely in configuration in `~/.aws` It's the same configuration that aws c
 aws configure
 ```
 
-Or if you want to install manually, edit ~/.aws/credentials` as :
+Or if you want to install manually, edit `~/.aws/credentials` as :
 ```
 [default]
 aws_access_key_id = XXXXXX
