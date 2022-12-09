@@ -12,7 +12,9 @@ if __name__ == "__main__":
     parser.add_argument("--force",help="Run the without requiring confirmation",default=False,action='store_true')
     parser.add_argument("--number",default=900,help="Optional number. Default %(default)d")
     parser.add_argument("--string",default="/a/path",help="Optional String. Default %(default)s")
-    args=parser.parse_args()
+    parser.add_argument("--replace", help="Replace pattern and value. Can be use multiple time",
+                        nargs=2,metavar=("pattern","replaceWith"),action='append')
+    
     
 def main(foo,barr):
     [...]
